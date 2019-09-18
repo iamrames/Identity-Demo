@@ -59,17 +59,20 @@ namespace DatingApp.API.Controllers {
         [HttpPost ("login")]
         public async Task<IActionResult> Login (UserForLoginDto userForLoginDto) 
         {
-            var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
+            var user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
+
+            if (user == null)
+                return BadRequest("Username not Found!");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
 
             if (result.Succeeded)
             {
                 var appUser = await _userManager.Users.Include(p => p.Photos)
-                    .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.Username.ToUpper());
+                    .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.UserName.ToUpper());
                 var userToReturn = _mapper.Map<UserForListDto>(appUser);   
                 return Ok (new {
-                    token = GenerateJWTToken(appUser),
+                    token = GenerateJWTToken(appUser).Result,
                     user = userToReturn
                 });
             }
