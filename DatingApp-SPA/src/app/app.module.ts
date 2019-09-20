@@ -25,7 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule, ModalModule } from 'ngx-bootstrap';
 import { MemberListsComponent } from './members/member-lists/member-lists.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -41,6 +41,7 @@ import { TimeAgoPipe } from './_pipe/time-ago.pipe';
 import { ListsResolver } from './_resolvers/lists.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -64,7 +65,8 @@ export function tokenGetter() {
       AdminPanelComponent,
       HasRoleDirective,
       UserManagementComponent,
-      PhotoManagementComponent
+      PhotoManagementComponent,
+      RolesModalComponent
    ],
    imports: [
       CommonModule,
@@ -72,6 +74,7 @@ export function tokenGetter() {
       BrowserAnimationsModule,
       AngularFontAwesomeModule,
       TabsModule.forRoot(),
+      ModalModule.forRoot(),
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
@@ -103,6 +106,9 @@ export function tokenGetter() {
       ListsResolver,
       MessagesResolver,
       AdminService
+   ],
+   entryComponents: [
+      RolesModalComponent
    ],
    bootstrap: [
       AppComponent
